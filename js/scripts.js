@@ -1,3 +1,6 @@
+let peopleUrl = "https://randomuser.me/api/?results=12";;
+
+
 function getUsers(url){
 
     const xhr= new XMLHttpRequest();
