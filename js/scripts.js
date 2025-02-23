@@ -13,21 +13,37 @@ function createSearch(){
                             <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
                         </form>`;
     searchContainer.insertAdjacentHTML('beforeend',searchForm);
-   
-  
-    
-    
+}
+function displayEmployees(employees){
+    console.log(employees);
+    for(i=0; i<employees.length;i++){
+        let employee=employees[i];
+        let employeeMarkup = `<div class="card">
+                    <div class="card-img-container">
+                        <img class="card-img" src="${employee.picture.medium}" alt="profile picture">
+                    </div>
+                    <div class="card-info-container">
+                        <h3 id="name" class="card-name cap">${employee.name.first} ${employee.name.last}</h3>
+                        <p class="card-text">${employee.email}</p>
+                        <p class="card-text cap">${employee.location.city}, ${employee.location.state}</p>
+                    </div>
+                </div>`;
+
+        galleryDiv.insertAdjacentHTML('beforeend',employeeMarkup);
 
 
-    /*
-
-      <form action="#" method="get">
-                            <input type="search" id="search-input" class="search-input" placeholder="Search...">
-                            <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
-                        </form>
-                        */
-
-
+    }
+    /* 
+    let employeeName=employee.name.first+" "+employee.name.last;
+        let employeeEmail=employee.email;
+        let  employeeCity=employee.location.city;
+        let employeeCountry = employee.location.country;
+        let employeeState = employee.location.state;
+        let employeePostCode = employee.location.postcode;
+        let employeeLocation=employeeCity +", "+ employeeState+", "+ employeePostCode+", " + employeeCountry;
+    //for (i = 0; i < results.length; i++) {
+     // let employee = results[i];
+*/
 }
 
 
@@ -37,21 +53,10 @@ fetch(url)
 .then(response=> response.json())
 .then(res=>{
     results=res.results
-    for(i=0;i<results.length;i++){
-        let employee=results[i];
-      
-        
-        let employeeName=employee.name.first+" "+employee.name.last;
-        let employeeEmail=employee.email;
-        let  employeeCity=employee.location.city;
-        let employeeCountry = employee.location.country;
-        let employeeState = employee.location.state;
-        let employeePostCode = employee.location.postcode;
-        let employeeLocation=employeeCity +", "+ employeeState+", "+ employeePostCode+", " + employeeCountry;
-        return employee;
-        
-}
-})
+    return results
+    })
+    .then(employees=>displayEmployees(employees))
+
 
 
 }
@@ -59,6 +64,7 @@ fetch(url)
 
 fetchEmployees(peopleUrl);
 createSearch()
+
 
 
 /*
