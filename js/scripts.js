@@ -1,13 +1,28 @@
 //Set initial variables
 
-let peopleUrl = 'https://randomuser.me/api/?results=12';
+let peopleUrl = "https://randomuser.me/api/?results=12&nat=AU,CA,GB,IE,NZ,US";
+
 let searchContainer = document.querySelector('.search-container');
 let galleryDiv=document.querySelector('#gallery');
 
-function createSearch(){
-    //createe Elements
+// =================
 
- 
+//fetch requests
+function fetchEmployees(url) {
+  fetch(url)
+    .then((response) => response.json())
+    .then((res) => {
+      results = res.results;
+      return results;
+    })
+    .then((employees) => displayEmployees(employees));
+}
+
+
+// =================
+// Helper Functions
+
+function createSearch(){
     let searchForm = `<form action="#" method="get">
                             <input type="search" id="search-input" class="search-input" placeholder="Search...">
                             <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
@@ -30,10 +45,13 @@ function displayEmployees(employees){
                 </div>`;
 
         galleryDiv.insertAdjacentHTML('beforeend',employeeMarkup);
+}
 
 
-    }
+    //=============================================================
     /* 
+
+
     let employeeName=employee.name.first+" "+employee.name.last;
         let employeeEmail=employee.email;
         let  employeeCity=employee.location.city;
@@ -48,18 +66,7 @@ function displayEmployees(employees){
 
 
 
-function fetchEmployees(url){
-fetch(url)
-.then(response=> response.json())
-.then(res=>{
-    results=res.results
-    return results
-    })
-    .then(employees=>displayEmployees(employees))
 
-
-
-}
 
 
 fetchEmployees(peopleUrl);
