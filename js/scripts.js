@@ -4,6 +4,32 @@ let peopleUrl = 'https://randomuser.me/api/?results=12';
 let searchContainer = document.querySelector('.search-container');
 let galleryDiv=document.querySelector('#gallery');
 
+function createSearch(){
+    //createe Elements
+
+ 
+    let searchForm = `<form action="#" method="get">
+                            <input type="search" id="search-input" class="search-input" placeholder="Search...">
+                            <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+                        </form>`;
+    searchContainer.insertAdjacentHTML('beforeend',searchForm);
+   
+  
+    
+    
+
+
+    /*
+
+      <form action="#" method="get">
+                            <input type="search" id="search-input" class="search-input" placeholder="Search...">
+                            <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+                        </form>
+                        */
+
+
+}
+
 
 
 function fetchEmployees(url){
@@ -21,19 +47,10 @@ fetch(url)
         let employeeCountry = employee.location.country;
         let employeeState = employee.location.state;
         let employeePostCode = employee.location.postcode;
-      
-
-        let employeeLocation=employeeCity +", "+ employeeState+", "+ employeePostCode+", " + employeeCountry
-      
-
-       
+        let employeeLocation=employeeCity +", "+ employeeState+", "+ employeePostCode+", " + employeeCountry;
+        return employee;
         
-        
-        
-
-    
-        
-    }
+}
 })
 
 
@@ -41,6 +58,7 @@ fetch(url)
 
 
 fetchEmployees(peopleUrl);
+createSearch()
 
 
 /*
