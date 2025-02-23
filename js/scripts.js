@@ -1,22 +1,13 @@
 //Set initial variables
 
-let peopleUrl = "https://randomuser.me/api/?results=12";
-let searchContainer = document.querySelector(".search-container");
+let peopleUrl = 'https://randomuser.me/api/?results=12';
+let searchContainer = document.querySelector('.search-container');
+let galleryDiv=document.querySelector('#gallery');
 
 
 
-
-
-
-
-
-
-
-
-
-
- function fetchEmployees(url){
- fetch(url)
+function fetchEmployees(url){
+fetch(url)
 .then(response=> response.json())
 .then(res=>{
     results=res.results
