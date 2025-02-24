@@ -8,14 +8,28 @@ let galleryDiv=document.querySelector('#gallery');
 // =================
 
 //fetch requests
-function fetchEmployees(url) {
-  fetch(url)
-    .then((response) => response.json())
+
+//================
+ async function fetchEmployees(url) {
+    try{
+  let apiRequest= await fetch(url).
+  then((response) => response.json())
     .then((res) => {
       results = res.results;
       return results;
     })
-    .then((employees) => displayEmployees(employees));
+    .then(results => displayEmployees(results))
+    .then((employees)=> createModal(employees));
+    
+}
+catch{error=>console.error(error)}
+finally{
+    createSearch()
+
+}
+    
+    
+    
 }
 
 
@@ -28,7 +42,13 @@ function createSearch(){
                             <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
                         </form>`;
     searchContainer.insertAdjacentHTML('beforeend',searchForm);
+
 }
+
+//=======================================================
+
+
+
 function displayEmployees(employees){
     console.log(employees);
     for(i=0; i<employees.length;i++){
@@ -46,6 +66,48 @@ function displayEmployees(employees){
 
         galleryDiv.insertAdjacentHTML('beforeend',employeeMarkup);
 }
+}
+
+
+
+
+
+function createModal(employees){
+    galleryDiv.addEventListener('click',(e)=>{
+    let employeeCard=e.target.closest('.card');
+    console.log(employeeCard);
+    let employeeCardName=employeeCard.querySelector('h3').innerText;
+    let employeeParagraphs=employeeCard.getElementsByTagName('p')
+    let employeeCardEmail=employeeParagraphs[0].innerText;
+    let employeeLocation=employeeParagraphs[1].innerText.split(',');
+    let emp
+    let employeeCity=employeeLocation[0];
+    
+    console.log({employeeLocation})
+    let ModalMarkup = `<div class="modal-container">
+                <div class="modal">
+                    <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                    <div class="modal-info-container">
+                        <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+                        <h3 id="name" class="modal-name cap">${employeeCardName}</h3>
+                        <p class="modal-text">${employeeCardEmail}</p>
+                        <p class="modal-text cap">${employeeCity}</p>
+                        <hr>
+                        <p class="modal-text">(555) 555-5555</p>
+                        <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+                        <p class="modal-text">Birthday: 10/21/2015</p>
+                    </div>
+                </div>`;
+    galleryDiv.insertAdjacentHTML('afterend',ModalMarkup);
+
+   
+    
+});
+
+
+};
+
+
 
 
     //=============================================================
@@ -62,43 +124,9 @@ function displayEmployees(employees){
     //for (i = 0; i < results.length; i++) {
      // let employee = results[i];
 */
-}
-
-
-
 
 
 
 fetchEmployees(peopleUrl);
-createSearch()
 
-
-
-/*
- display 12 users, along with some basic information for each:
-
-    Image
-    First and Last Name
-    Email
-    City or location
-    */
-/*
-function getUsers(url){
-    return new Promise((resolve, reject)=>{
-         const xhr= new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.onload= ()=>{
-
-        if(xhr.status===200){
-            let data=JSON.parse(xhr.responseText);
-            resolve(data);
-        }
-        else{
-            reject(Error(xhr.statusText));
-        }
-    };
-    xhr.onerror=()=>reject(Error('A network occurred'));
-    xhr.send();
-});
-}
-getUsers(peopleUrl);*/
+ 
