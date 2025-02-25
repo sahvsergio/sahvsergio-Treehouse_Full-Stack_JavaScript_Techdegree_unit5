@@ -5,8 +5,6 @@ let peopleUrl = "https://randomuser.me/api/?results=12&nat=AU,CA,GB,IE,NZ,US";
 let searchContainer = document.querySelector(".search-container");
 let galleryDiv = document.querySelector("#gallery");
 
-
-
 // =================
 
 //fetch requests
@@ -14,25 +12,17 @@ let galleryDiv = document.querySelector("#gallery");
 //================
 async function fetchEmployees(url) {
   try {
-    let response = await fetch(url)
-    let data= await response.json();
-    let employees=data.results;
-    displayEmployees(employees)
+    let response = await fetch(url);
+    let data = await response.json();
+    let employees = data.results;
+    displayEmployees(employees);
     createModal(employees);
-    
-  
-
-  } catch (error){ 
-  console.error(error);
-  } 
-  
-  finally {
+  } catch (error) {
+    console.error(error);
+  } finally {
     createSearch();
     closeModal();
     searchEmployee();
-    
-
-  
   }
 }
 
@@ -50,7 +40,7 @@ function createSearch() {
 //=======================================================
 
 function displayEmployees(employees) {
-  console.log(employees);
+
   for (i = 0; i < employees.length; i++) {
     let employee = employees[i];
     let employeeMarkup = `<div class="card">
@@ -72,18 +62,16 @@ function createModal(employees) {
   galleryDiv.addEventListener("click", (e) => {
     let employeeCard = e.target.closest(".card");
     if (!employeeCard) return; //
-    
+
     let employeeCardName = employeeCard.querySelector("h3").innerText;
-   
-    
+
     let emp;
-    
+
     const matchedEmployee = employees.find(
       (emp) => `${emp.name.first} ${emp.name.last}` === employeeCardName
     );
-    let dob=matchedEmployee.dob.date.split('T');
-    let dateOfBirth=dob[0].split('-');
-   
+    let dob = matchedEmployee.dob.date.split("T");
+    let dateOfBirth = dob[0].split("-");
 
     let ModalMarkup = `<div class="modal-container">
                 <div class="modal">
@@ -101,18 +89,11 @@ function createModal(employees) {
                 </div>`;
     galleryDiv.insertAdjacentHTML("afterend", ModalMarkup);
   });
-  
-  
 }
-
-
-
-
 
 fetchEmployees(peopleUrl);
 
-function closeModal(){
-
+function closeModal() {
   document.addEventListener("click", (e) => {
     const modalContainer = document.querySelector(".modal-container");
 
@@ -123,24 +104,18 @@ function closeModal(){
   });
 }
 
-function searchEmployee(){
-  let searchInput=document.querySelector('#search-input');
-  searchInput.addEventListener('keyup',(e)=>{
-    let currentValue=e.target.value.toLowerCase();
-    console.log(currentValue);
+function searchEmployee() {
+  let searchInput = document.querySelector("#search-input");
+  searchInput.addEventListener("keyup", (e) => {
+    let currentValue = e.target.value.toLowerCase();
+  
     let employees = document.querySelectorAll("h3.card-name");
-    employees.forEach(employee=>{
-      if(employee.textContent.toLowerCase().includes(currentValue)){
-        employee.parentNode.parentNode.style.display='block';
-
+    employees.forEach((employee) => {
+      if (employee.textContent.toLowerCase().includes(currentValue)) {
+        employee.parentNode.parentNode.style.display = "block";
+      } else {
+        employee.parentNode.parentNode.style.display = "none";
       }
-      else{
-        employee.parentNode.parentNode.style.display='none';
-      }
-    })
-
-
-  }
-);
-
+    });
+  });
 }
